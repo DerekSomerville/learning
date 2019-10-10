@@ -60,9 +60,9 @@ def dealCards(deck,noOfCards,noOfHands,hands=[]):
 # Description: A hand of cards is input and an individual playing card. If the individual playing card is found in the hand it is removed from
 # the hand.
 def playACard(hand,cardToPlay):
-    for card in hand:
-        if card == cardToPlay:
             hand.remove(card)
+    if cardToPlay in hand:
+        hand.remove(cardToPlay)
 
 # Function: isPlayingACard
 # Description: For a given hand of cards if an individual hand of card is found it is removed from the hand and returns
