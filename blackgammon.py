@@ -102,17 +102,28 @@ def getPlayerInt(request):
     #Return the answer after it is converted to an intger int()
     return int(answer)
 
+def requestIntegerFromPlayer(request):
+    valid = False
+    while not valid:
+        try:
+            answerAsString = input(request)
+            answerAsInteger = int(answerAsString)
+            valid = True
+        except ValueError:
+            print("Please enter an integer")
+    return answerAsInteger
+
 def getPlayerDieToMove(colour,dice):
-    numberOfMoves = getPlayerInt("Please enter number of spaces to move for " + colour)
+    numberOfMoves = requestIntegerFromPlayer("Please enter number of spaces to move for " + colour)
     # We want to check the player enters one of the die
     while numberOfMoves not in dice:
         print("Please select from",dice)
-        numberOfMoves = getPlayerInt("Please enter number of spaces to move for " + colour)
+        numberOfMoves = requestIntegerFromPlayer("Please enter number of spaces to move for " + colour)
     return numberOfMoves
 
 def requestPlayerMove(colour, dice):
     numberOfMoves = 0
-    pointToMoveFrom = getPlayerInt("Please enter position to move for " + colour)
+    pointToMoveFrom = requestIntegerFromPlayer("Please enter position to move for " + colour)
     # A negative pointToMoveFrom indicates the players wants to stop
     if pointToMoveFrom >= 0:
         numberOfMoves = getPlayerDieToMove(colour,dice)
