@@ -158,7 +158,11 @@ def dieExists(dice,numberOfMoves):
 
 def validatePointToMoveFrom(currentBoard,colour,point,silent ):
     valid = True
-    if not currentBoard[point][0] == colour:
+    if not point <= middle[colour]:
+        if not silent:
+            print("Point is too large")
+        valid = False
+    elif not currentBoard[point][0] == colour:
         if not silent:
             print("Position to move from not your colour")
         valid = False
@@ -170,10 +174,7 @@ def validatePointToMoveFrom(currentBoard,colour,point,silent ):
         if not silent:
             print("You have chips in the middle, please play these first")
         valid = False
-    elif not point <= middle[colour]:
-        if not silent:
-            print("Point is too large")
-        valid = False
+
     return valid
 
 def allInHome(currentBoard,colour):
