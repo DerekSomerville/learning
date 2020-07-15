@@ -6,8 +6,8 @@ import random
 white = "white"
 black = "black"
 totalChips = 15
-home = { white:25, black:0}
-start = { white:0, black:25}
+home = {white:25, black:0}
+start = {white:0, black:25}
 middle = {white:26,black:27} # We need to record white/black chips moved off the board
 
 # Create initial setup board
@@ -62,6 +62,7 @@ def displayBoard(board):
             print("White Home has",point[1])
             print()
         elif counter < 25:
+            # To make the length of colour so the counter matches up we add a space to None
             if point[0] == None:
                 colour = "None "
             else:
@@ -75,6 +76,7 @@ def throwDice():
     dice = []
     dice.append(throwADie())
     dice.append(throwADie())
+    # If we roll the same dice the player gets four moves
     if dice[0] == dice[1]:
         dice.append(dice[0])
         dice.append(dice[0])
@@ -102,6 +104,7 @@ def getPlayerInt(request):
 
 def getPlayerDieToMove(colour,dice):
     numberOfMoves = getPlayerInt("Please enter number of spaces to move for " + colour)
+    # We want to check the player enters one of the die
     while numberOfMoves not in dice:
         print("Please select from",dice)
         numberOfMoves = getPlayerInt("Please enter number of spaces to move for " + colour)
@@ -110,6 +113,7 @@ def getPlayerDieToMove(colour,dice):
 def requestPlayerMove(colour, dice):
     numberOfMoves = 0
     pointToMoveFrom = getPlayerInt("Please enter position to move for " + colour)
+    # A negative pointToMoveFrom indicates the players wants to stop
     if pointToMoveFrom >= 0:
         numberOfMoves = getPlayerDieToMove(colour,dice)
     return pointToMoveFrom, numberOfMoves
@@ -126,6 +130,7 @@ def determineNewPosition(colour,pointToMoveFrom, numberOfMoves):
     if pointToMoveFrom == middle[colour]:
         pointToMoveFrom = start[colour]
 
+    # If the move is beyond, further, than home we make it home
     if colour == white:
         newPosition = pointToMoveFrom + numberOfMoves
         if newPosition > home[colour]:
@@ -162,6 +167,8 @@ def validatePointToMoveFrom(currentBoard,colour,point,silent ):
 
 def allInHome(currentBoard,colour):
     total = 0
+    # We need to create a direction for the range, since home is zero for black and 25 for white
+    # So for white we go backwards
     direction = 1
     if colour == white:
         direction = -1
@@ -207,6 +214,7 @@ def validPlayerInstructions(currentBoard,colour,dice,pointToMoveFrom, numberOfMo
 def playerCanMove(currentBoard,colour,dice):
     canMove = False
     counter = 0
+    # We use a while so we can exit once the player can move, this is faster than doing a for every move
     while counter < len(currentBoard):
         if currentBoard[counter][0] == colour:
             for die in dice:
@@ -236,7 +244,7 @@ def makePlayerMove(currentBoard,colour,pointToMoveFrom, numberOfMoves):
     currentBoard[pointToMoveFrom] = [positionFromColour,positionFromCount]
     # Determine the direction of the move
     # White moves forward
-    # Balck moves back so we subtract
+    # Black moves back so we subtract
     newPosition = determineNewPosition(colour,pointToMoveFrom, numberOfMoves)
     originalColour = currentBoard[newPosition][0]
     if currentBoard[newPosition][0] != None and currentBoard[newPosition][0] != colour:
@@ -247,11 +255,14 @@ def makePlayerMove(currentBoard,colour,pointToMoveFrom, numberOfMoves):
 
 def playerRound(currentBoard,colour,dice):
     pointToMoveFrom = 0
+    # We don't know how many dice they have or if the try to exit with a negative pointToMoveFrom
+    # So we need a conditional while to loop
     while len(dice) > 0 and pointToMoveFrom >= 0:
         pointToMoveFrom, numberOfMoves = validPlayerRound(currentBoard,colour,dice)
         currentBoard = makePlayerMove(currentBoard,colour,pointToMoveFrom, numberOfMoves)
         displayBoard(currentBoard)
-        dice.remove(numberOfMoves)
+        if pointToMoveFrom >= 0:
+            dice.remove(numberOfMoves)
     return currentBoard, pointToMoveFrom
         
 def playGame(currentBoard,colour):
@@ -271,9 +282,13 @@ def main():
     # It is a memory address to the same list
     currentBoard = copy.deepcopy(initialBoard)
     pointsToMoveFrom = 0
-    while (currentBoard[home[white]][1] != totalChips or currentBoard[home[black]][1] != totalChips) and pointsToMoveFrom >=0:
-        currentBoard,pointsToMoveFrom = playGame(currentBoard,white)  
-        currentBoard,pointsToMoveFrom = playGame(currentBoard,black)
+    print("To exit enter a negative position to move from")
+    # We need to iterate to keep till one player has all chips home or someone tries to exit with a negative pointToMoveFrom
+    # So we need to iterate with a while since it is conditional
+    while (currentBoard[home[white]][1] != totalChips and currentBoard[home[black]][1] != totalChips) and pointsToMoveFrom >=0:
+        currentBoard,pointsToMoveFrom = playGame(currentBoard,white)
+        if pointsToMoveFrom >= 0:
+            currentBoard,pointsToMoveFrom = playGame(currentBoard,black)
         
 if __name__ == "__main__":
     main()
