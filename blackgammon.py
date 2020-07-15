@@ -23,12 +23,7 @@ initialBoard = [[None,0],
                 [None,0],
                 [None,0]
                ]
-initialBoard = [[black,0],
-[black,2],[black,2],[black,2],[black,2],[black,2],[black,2],[black,1],[black,2],[None,0],[None,0],[None,0],[white,1],
-[None,0],[white,3],[white,1],[None,0],[None,0],[None,0],[None,0],[None,0],[None,0],[None,0],[white,4],[white,4],
-[white,0],
-[white,1],
-[black,0]]
+
 def displayBoard(board):
     for counter, point in enumerate(board):
         # Create a new line if on the second half
