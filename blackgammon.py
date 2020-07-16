@@ -135,9 +135,16 @@ def getPlayerDieToMove(colour,dice):
         numberOfMoves = requestIntegerFromPlayer("Please enter number of spaces to move for " + colour)
     return numberOfMoves
 
+def getPlayerPosition(colour):
+    pointToMoveFrom = requestIntegerFromPlayer("Please enter position to move for " + colour)
+    while not (pointToMoveFrom <= middle[black]):
+        print("Postion does not exist, please try again")
+        pointToMoveFrom = requestIntegerFromPlayer("Please enter position to move for " + colour)
+    return pointToMoveFrom
+
 def requestPlayerMove(colour, dice):
     numberOfMoves = 0
-    pointToMoveFrom = requestIntegerFromPlayer("Please enter position to move for " + colour)
+    pointToMoveFrom = getPlayerPosition(colour)
     # A negative pointToMoveFrom indicates the players wants to stop
     if pointToMoveFrom >= 0:
         numberOfMoves = getPlayerDieToMove(colour,dice)
