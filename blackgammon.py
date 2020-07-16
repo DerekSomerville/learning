@@ -3,16 +3,23 @@ import random
 
 # We want to create some constants or fixed values to help with the game
 # This makes the code easier to read, and avoid spelling mistakes
+
+# So for white and black, this will highlight an issue if you write "balck"
 white = "white"
 black = "black"
+# Using the variable gives mean when you read the code and makes it easier to change.
+# so if your code read numberOfChips less than 15 what does this mean, numberOfChips less then totalChips
 totalChips = 15
+middleOfBoard = 13
+# Again we need to find the home, start and middle for white and black, this gives more meaning when you read the code
+# reading numbers is difficult to understand
 home = {white:25, black:0}
 start = {white:0, black:25}
 middle = {white:26,black:27} # We need to record white/black chips moved off the board
 
 # Create initial setup board
 # We have a fixed number of columns that can either be white or black
-# A data strucutre to store the board could be a list
+# A data structure to store the board could be a list
 # For each element we need to store the colour and number of chips
 initialBoard = [[None,0],
                 [white,2],[None,0],[None,0],[None,0],[None,0],[black,5],
@@ -24,39 +31,44 @@ initialBoard = [[None,0],
                 [None,0]
                ]
 
+def displayMiddleBoard(board):
+    print()
+    print()
+    if board[middle[white]][1] > 0 or board[middle[black]][1] > 0:
+        print("Middle has ", board[middle[white]][1]," white chips in the middle please type",middle[white])
+        print("Middle has ", board[middle[black]][1]," black chips in the middle please type",middle[black])
+        print()
+
+def displayCounterIndex(startPoint,endPoint):
+    for counter in range(startPoint,endPoint):
+        if counter == startPoint + ((endPoint - startPoint) // 2):
+            print("  ",end="")
+        if counter >= 10:
+            print("    " + str(counter) + "  ",end="")
+        else:
+            print("   " + str(counter) + "    ",end="")
+    print()
+
+# We want to keep one thing together so we displayBoard
+# This method could do with refactoring and improving
 def displayBoard(board):
     for counter, point in enumerate(board):
+
         # Create a new line if on the second half
         # We also add any chips in the middle
-        if counter == 13:
-            print()
-            print()
-            if board[middle[white]][1] > 0 or board[middle[black]][1] > 0:
-                print("Middle has ", board[middle[white]][1]," white chips in the middle please type",middle[white])
-                print("Middle has ", board[middle[black]][1]," black chips in the middle please type",middle[black])
-                print()
-            for counter in range(13,25):
-                if counter == 19:
-                    print("  ",end="")
-                print("    " + str(counter) + "  ",end="")
-            print()
+        if counter == middleOfBoard:
+            displayMiddleBoard(board)
+            displayCounterIndex(middleOfBoard,home[white])
 
         # We create a divide for the mid part of the game
-        if counter == 7 or counter == 19:
+        # The equation is probably excessive and hardcoded values would be better,
+        # but it means if the board changes it still works
+        if (counter == ((middleOfBoard - home[black])//2)+1) or (counter == middleOfBoard + ((home[white]-middleOfBoard)//2)):
             print("||",end =" ")
 
         if counter == 0:
             print("Black Home has", point[1])
-            for counter in range(1,13):
-                if counter == 7:
-                    print("    ",end="")
-                if counter < 7:
-                    print("   " + str(counter) + "    ",end="")
-                elif counter >= 10:
-                    print("    " + str(counter) + "  ",end="")
-                else:
-                    print("   " + str(counter) + "   ",end="")
-            print()
+            displayCounterIndex(home[black]+1,middleOfBoard)
         elif counter == 25:
             print()
             print("White Home has",point[1])
@@ -68,7 +80,9 @@ def displayBoard(board):
             else:
                 colour = point[0]
             print(colour,point[1],end=" ")
-            
+
+
+
 def throwADie():
     return random.randint(1,6)
 
