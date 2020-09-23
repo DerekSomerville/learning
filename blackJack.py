@@ -127,6 +127,7 @@ def main():
     computerRisk = initialiseComputerRisk(numberOfPlayers)
     blackJack(deck,hands,computerRisk)
 
+# This allows the main to be called only when you run this file.
 if __name__ == "__main__":
     main()
 
