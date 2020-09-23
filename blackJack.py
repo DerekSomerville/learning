@@ -127,6 +127,7 @@ def main():
     computerRisk = initialiseComputerRisk(numberOfPlayers)
     blackJack(deck,hands,computerRisk)
 
-#main()
+if __name__ == "__main__":
+    main()
 
 
