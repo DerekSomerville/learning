@@ -58,6 +58,11 @@ class playingCardTests(unittest.TestCase):
         hands = playingCard.dealCards(deck,0,5)
         self.assertEqual(10,len(hands[-1]))
 
+    def test_dealCardsAllTwelvePlayersAllDealt(self):
+        deck = playingCard.generateDeck()
+        hands = playingCard.dealCards(deck,0,12)
+        self.assertEqual(numberOfCards,self.countHands(hands))
+
     def test_SortHand(self):
         randomHand = ["C8", "HA", "C2"]
         playingCard.sortHand(randomHand)
