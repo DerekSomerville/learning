@@ -42,7 +42,6 @@ def dealCards(deck,noOfCards,noOfHands):
     allCards = False
     if noOfCards == 0:
         noOfCards = int(len(deck)/noOfHands) - 1
-        print("No of cards where zero",noOfCards)
         allCards = True
 
     for index in range(0,noOfHands):
@@ -54,7 +53,6 @@ def dealCards(deck,noOfCards,noOfHands):
             hands[handIndex].append(dealtCard)
 
     if allCards:
-        print("Deck all cards",deck)
         counter = 0
         while len(deck) > 0:
             hands[counter].append(dealACard(deck))
