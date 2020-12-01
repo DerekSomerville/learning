@@ -38,18 +38,16 @@ def dealACard(cards):
 # Description: Deal a number of cards from a deck to a number of players (no of hands). Optionally an existing set of
 # hands of cards can be passed. The default is for no existing hands of cards to be passed.
 def dealCards(deck,noOfCards,noOfHands,hands=[]):
+    hands=[]
+    print("No of cards",noOfCards)
     allCards = False
     if noOfCards == 0:
-        noOfCards = int(len(deck)/noOfHands) + 1
+        noOfCards = int(len(deck)/noOfHands) - 1
+        print("No of cards where zero",noOfCards)
         allCards = True
-    # Setup hand
-    if hands != []:  # I.E. a hand has already been provided
-        missingHands =  noOfHands - len(hands)
-        for index in range(0,missingHands):
-            hands += [[]]
-    else:
-        for index in range(0,noOfHands):
-            hands += [[]]
+
+    for index in range(0,noOfHands):
+        hands += [[]]
 
     for handIndex in range(0,noOfHands):
         while len(hands[handIndex]) < noOfCards and len(deck) > 0:
@@ -57,9 +55,11 @@ def dealCards(deck,noOfCards,noOfHands,hands=[]):
             hands[handIndex].append(dealtCard)
 
     if allCards:
+        print("Deck all cards",deck)
         counter = 0
         while len(deck) > 0:
             hands[counter].append(dealACard(deck))
+            counter = (counter +1) % noOfHands
 
     return hands
 
