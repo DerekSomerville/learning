@@ -37,9 +37,8 @@ def dealACard(cards):
 # Function: dealCards
 # Description: Deal a number of cards from a deck to a number of players (no of hands). Optionally an existing set of
 # hands of cards can be passed. The default is for no existing hands of cards to be passed.
-def dealCards(deck,noOfCards,noOfHands,hands=[]):
+def dealCards(deck,noOfCards,noOfHands):
     hands=[]
-    print("No of cards",noOfCards)
     allCards = False
     if noOfCards == 0:
         noOfCards = int(len(deck)/noOfHands) - 1
