@@ -77,7 +77,7 @@ def main():
     # The next function returns two hands of cards. It has a full deck of cards as an input. The number of cards to deal
     # is zero so all cards are dealt to the two players. The last parameter is an empty list since the players have not
     # already been dealt any cards.
-    hands = playingCard.dealCards(deck, 0, 2, [])
+    hands = playingCard.dealCards(deck, 0, 2)
     snap(hands,secondsToWait)
 
 main()
